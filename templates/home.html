@@ -119,6 +119,22 @@
         tbody tr:hover {
             background-color: #f1f1f1;
         }
+        .logout-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .logout-btn {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .logout-btn:hover {
+            background-color: #c82333;
+        }
     </style>
 </head>
 <body>
@@ -139,7 +155,7 @@
                 <tbody>
                     {% for detail, information in current_tournament_info.items() %}
                         <tr>
-                            <td>{{ detail }}</td>
+                            <td><strong>{{ detail }}</strong></td>
                             <td>{{ information }}</td>
                         </tr>
                     {% endfor %}
@@ -194,6 +210,12 @@
                 </tbody>
             </table>
         </div>
+    </div>
+
+    <div class="logout-container">
+        <form method="post" action="{{ url_for('logout') }}">
+            <button type="submit" class="logout-btn">Logout</button>
+        </form>
     </div>
 
     <a href="/stats" class="btn btn-link">View Stats</a>
