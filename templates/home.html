@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to The PGA Cool Pool</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-top: 20px;
+        }
+        .container {
+            display: grid;
+            grid-template-areas:
+                "bulletin current-tournament-info"
+                "user-form leaderboard";
+            grid-gap: 20px;
+            width: 80%;
+            max-width: 1200px;
+            margin: 20px auto;
+        }
+        #bulletin {
+            grid-area: bulletin;
+            border: 1px solid #ddd;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            text-align: left;
+        }
+        #current-tournament-info {
+            grid-area: current-tournament-info;
+            border: 1px solid #ddd;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            text-align: left;
+        }
+        #user-form {
+            grid-area: user-form;
+            margin: 20px auto;
+            width: 100%;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            text-align: left;
+        }
+        #leaderboard {
+            grid-area: leaderboard;
+            margin: 20px;
+            width: 100%;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        select, input[type="text"], input[type="submit"] {
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+        a {
+            color: #4CAF50;
+            text-decoration: none;
+            margin: 10px;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .tournament-links {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .tournament-link {
+            margin: 5px;
+            padding: 5px 10px;
+            background-color: #4CAF50;
+            color: white;
+            border-radius: 4px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+        .tournament-link:hover {
+            background-color: #45a049;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+        th {
+            background-color: #f4f4f4;
+            color: #333;
+            font-weight: bold;
+        }
+        tbody tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        tbody tr:hover {
+            background-color: #f1f1f1;
+        }
+    </style>
+</head>
+<body>
+    <h1>Welcome to The PGA Cool Pool</h1>
+
+    <div class="container">
+        <div id="bulletin">
+            <h2>Bulletin</h2>
+            <p><strong>Last Winner:</strong> {{ last_winner }}</p>
+            <p><strong>Next Tournament:</strong> {{ next_tournament }}</p>
+            <p><strong>Total Money Won:</strong> {{ total_moneyWon }}</p>
+            <p><strong>Total Money Left:</strong> ${{ total_moneyLeft }}</p>
+        </div>
+
+        <div id="current-tournament-info">
+            <h2>Current Tournament Information</h2>
+            <table>
+                <tbody>
+                    {% for detail, information in current_tournament_info.items() %}
+                        <tr>
+                            <td>{{ detail }}</td>
+                            <td>{{ information }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div id="user-form">
+            <form method="post">
+                <label for="username">Username:</label>
+                <select name="username" id="username">
+                    {% for name in usernames %}
+                        <option value="{{ name }}">{{ name }}</option>
+                    {% endfor %}
+                </select>
+                <label for="tournament">Tournament:</label>
+                <select name="tournament" id="tournament">
+                    {% for tournament in tournaments %}
+                        <option value="{{ tournament }}">{{ tournament }}</option>
+                    {% endfor %}
+                </select>
+                <label for="pick">Golfer Pick:</label>
+                <input type="text" name="pick" id="pick">
+                <input type="submit" value="Submit">
+            </form>
+        </div>
+
+        <div id="leaderboard">
+            <h2>Leaderboard</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th>Total Prize Money</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for username, total_prize_money in leaderboard_data %}
+                        <tr>
+                            <td>{{ username }}</td>
+                            <td>{{ total_prize_money }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <h2>Past Tournament Results</h2>
+    <div class="tournament-links">
+        {% for tournament in tournaments %}
+            <a href="/tournament_results/{{ tournament }}" class="tournament-link">{{ tournament }}</a>
+        {% endfor %}
+    </div>
+
+    <a href="/stats">View Stats</a>
+</body>
+</html>
