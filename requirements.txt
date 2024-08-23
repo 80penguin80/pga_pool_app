@@ -1,0 +1,14 @@
+Flask
+psycopg2-binary
+pandas
+matplotlib
+import-ipynb
+bcrypt
+requests
+beautifulsoup4
+
+
+
+
+
+

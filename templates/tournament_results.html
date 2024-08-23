@@ -4,53 +4,73 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tournament Results for {{ tournament_name }}</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f8f9fa;
             margin: 0;
             padding: 0;
-            background-color: #f4f4f4;
-        }
-        .container {
-            width: 80%;
-            margin: auto;
-            overflow: hidden;
         }
         header {
-            background: #333;
+            background: #007bff;
             color: #fff;
-            padding-top: 10px;
-            min-height: 70px;
-            border-bottom: #fff 3px solid;
+            padding: 20px 0;
             text-align: center;
+            border-bottom: 3px solid #0056b3;
         }
         header h1 {
             margin: 0;
-            font-size: 24px;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-        }
-        table, th, td {
-            border: 1px solid #ddd;
-        }
-        th, td {
-            padding: 10px;
-            text-align: left;
-        }
-        th {
-            background-color: #f4f4f4;
+            font-size: 2rem;
         }
         footer {
-            background: #333;
-            color: #fff;
+            background: #fff;
+            color: #343a40;
             text-align: center;
             padding: 10px;
             position: fixed;
             width: 100%;
             bottom: 0;
+            font-size: 0.8rem;
+            border-top: 1px solid #dee2e6;
+        }
+        .container {
+            margin: 20px auto;
+            max-width: 1200px;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            border: none;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+        .hidden {
+            display: none;
+        }
+        .table-responsive {
+            overflow-x: auto;
+        }
+        table {
+            margin: 20px 0;
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 12px;
+            border: 1px solid #dee2e6;
+            text-align: left;
+        }
+        th {
+            background-color: #f1f1f1;
+            color: #333;
+        }
+        tbody tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        tbody tr:hover {
+            background-color: #e2e6ea;
         }
     </style>
 </head>
@@ -62,32 +82,78 @@
     </header>
 
     <div class="container">
-        <table>
-            <thead>
-                <tr>
-                    <th>User Name</th>
-                    <th>Player Pick</th>
-                    <th>Prize Money</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for row in results_data %}
+        <div class="mb-4">
+            <button class="btn btn-primary" onclick="toggleBlankQueryData()">Show Tournament Info</button>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
                     <tr>
-                        <td>{{ row[0] }}</td>
-                        <td>{{ row[1] }}</td>
-                        <td>{{ row[2] }}</td>
+                        <th>User Name</th>
+                        <th>Player Pick</th>
+                        <th>Prize Money</th>
                     </tr>
-                {% else %}
-                    <tr>
-                        <td colspan="3">No results found for this tournament.</td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    {% for row in results_data %}
+                        <tr>
+                            <td>{{ row[0] }}</td>
+                            <td>{{ row[1] }}</td>
+                            <td>{{ row[2] }}</td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="3">No results found for this tournament.</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div id="blank-query-data" class="hidden">
+            <h2>Tournament Info</h2>
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Tournament Number</th>
+                            <th>Tournament Name</th>
+                            <th>Date</th>
+                            <th>Total Purse</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for data in blank_query_data %}
+                            <tr>
+                                <td>{{ data[0] }}</td>
+                                <td>{{ data[1] }}</td>
+                                <td>{{ data[2] }}</td>
+                                <td>{{ data[3] }}</td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td colspan="4">No information found for this tournament.</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 
     <footer>
-        <p>&copy; 2024 Tournament Results. All rights reserved.</p>
+        <p>All rights reserved.</p>
     </footer>
+
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.min.js"></script>
+    <script>
+        function toggleBlankQueryData() {
+            var blankQueryDiv = document.getElementById("blank-query-data");
+            blankQueryDiv.classList.toggle("hidden");
+        }
+    </script>
 </body>
 </html>

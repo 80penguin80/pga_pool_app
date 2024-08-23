@@ -9,6 +9,7 @@
             font-family: Arial, sans-serif;
             background-color: #f4f4f4;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             height: 100vh;
@@ -22,8 +23,8 @@
             width: 300px;
             text-align: center;
         }
-        .login-container h2 {
-            margin-bottom: 20px;
+        .login-container h1, .login-container h2 {
+            margin: 10px 0;
         }
         .login-container input[type="text"],
         .login-container input[type="password"] {
@@ -49,10 +50,16 @@
             color: red;
             margin-top: 10px;
         }
+        .bottom-message {
+            margin-top: 20px;
+            font-size: 0.9em;
+            color: #555;
+        }
     </style>
 </head>
 <body>
     <div class="login-container">
+        <h1>Welcome to Cool Pool</h1>
         <h2>Login</h2>
         <form method="POST" action="{{ url_for('login') }}">
             <input type="text" name="username" placeholder="Username" required>
@@ -62,6 +69,9 @@
                 <div class="error-message">{{ error }}</div>
             {% endif %}
         </form>
+    </div>
+    <div class="bottom-message">
+        It's not ready yet relax
     </div>
 </body>
 </html>
