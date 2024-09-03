@@ -102,7 +102,7 @@
         }
         .logout-container {
             text-align: center;
-            margin-top: 30px;
+            margin-top:30px;
         }
         .logout-btn {
             background-color: #dc3545;
@@ -156,36 +156,51 @@
         </div>
 
         <div id="user-form">
+            <style>
+                #user-form label, 
+                #user-form select, 
+                #user-form input[type="submit"] {
+                    font-size: 18px; /* Adjust the size as needed */
+                }
+        
+                #user-form select {
+                    height: auto; /* Ensures select dropdown adjusts to font size */
+                }
+            </style>
             <form method="post">
-                <label for="username">Username:</label>
+                <label for="username"><b>Username:</b></label>
                 <select class="form-control" name="username" id="username">
                     {% for name in usernames %}
                         <option value="{{ name }}">{{ name }}</option>
                     {% endfor %}
                 </select>
-                <label for="tournament">Tournament:</label>
+            
+                <label for="tournament"><b>Tournament:</b></label>
                 <select class="form-control" name="tournament" id="tournament">
                     {% for tournament in tournaments %}
                         <option value="{{ tournament }}">{{ tournament }}</option>
                     {% endfor %}
                 </select>
-                <label for="pick">Golfer Pick:</label>
+            
+                <label for="pick"><b>Golfer Pick:</b></label>
                 <select class="form-control select2 wide-dropdown" name="pick" id="pick">
                     {% for golfer in golfers %}
                         <option value="{{ golfer }}">{{ golfer }}</option>
                     {% endfor %}
                 </select>
+            
                 <input class="btn btn-primary mt-3" type="submit" value="Submit">
                 
                 <!-- Tournament Results Links -->
-                <h2 class="mt-4">Past Tournament Results</h2>
+                <h2 class="mt-4"><b>Past Tournament Results</b></h2>
                 <div class="tournament-links">
                     {% for tournament in tournaments %}
-                        <a href="/tournament_results/{{ tournament }}" class="tournament-link">{{ tournament }}</a>
+                        <a href="/tournament_results/{{ tournament }}" class="tournament-link"><b>{{ tournament }}</b></a>
                     {% endfor %}
                 </div>
             </form>
         </div>
+            
 
         <div id="leaderboard">
             <h2>Leaderboard</h2>
