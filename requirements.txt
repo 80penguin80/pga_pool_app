@@ -6,9 +6,4 @@ import-ipynb
 bcrypt
 requests
 beautifulsoup4
-
-
-
-
-
-
+nbimporter
