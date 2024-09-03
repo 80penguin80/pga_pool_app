@@ -6,6 +6,7 @@
     <title>Welcome to The PGA Cool Pool</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-beta.1/css/select2.min.css" rel="stylesheet">
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -19,12 +20,14 @@
             display: grid;
             grid-template-areas:
                 "bulletin current-tournament-info"
-                "user-form leaderboard";
+                "user-form leaderboard"
+                "rules rules";
             grid-gap: 30px;
-            max-width: 1200px;
+            max-width: 100vw; /* Ensure the container fits the viewport width */
             margin: 20px auto;
+            overflow-x: auto; /* Allow horizontal scrolling if necessary */
         }
-        #bulletin, #current-tournament-info, #user-form, #leaderboard {
+        #bulletin, #current-tournament-info, #user-form, #leaderboard, #rules {
             background: white;
             border-radius: 12px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -43,6 +46,15 @@
         #leaderboard {
             grid-area: leaderboard;
         }
+        #rules {
+            grid-area: rules;
+            margin-top: 30px;
+            padding: 20px;
+            width: 300%; /* Increase width */
+            max-width: 100%; /* Ensure it doesn’t exceed the container width */
+            justify-self: center; /* Center within its grid area */
+        }
+            
         h1 {
             text-align: center;
             color: #333;
@@ -90,32 +102,30 @@
         }
         .logout-container {
             text-align: center;
-            margin-top: 20px;
+            margin-top: 30px;
         }
         .logout-btn {
             background-color: #dc3545;
             color: white;
             border: none;
-            padding: 10px 20px;
             border-radius: 8px;
+            padding: 10px 20px;
             cursor: pointer;
-            transition: background-color 0.3s ease;
         }
         .logout-btn:hover {
             background-color: #c82333;
         }
-        .tournament-link {
+        .tournament-links a {
             display: block;
             margin: 5px 0;
-            padding: 10px;
-            background-color: #007bff;
-            color: white;
-            border-radius: 8px;
+            color: #007bff;
             text-decoration: none;
-            transition: background-color 0.3s ease;
         }
-        .tournament-link:hover {
-            background-color: #0056b3;
+        .tournament-links a:hover {
+            text-decoration: underline;
+        }
+        .wide-dropdown {
+            width: 100%; /* Full width for dropdown */
         }
     </style>
 </head>
@@ -160,7 +170,11 @@
                     {% endfor %}
                 </select>
                 <label for="pick">Golfer Pick:</label>
-                <input class="form-control" type="text" name="pick" id="pick">
+                <select class="form-control select2 wide-dropdown" name="pick" id="pick">
+                    {% for golfer in golfers %}
+                        <option value="{{ golfer }}">{{ golfer }}</option>
+                    {% endfor %}
+                </select>
                 <input class="btn btn-primary mt-3" type="submit" value="Submit">
                 
                 <!-- Tournament Results Links -->
@@ -192,18 +206,49 @@
                 </tbody>
             </table>
         </div>
+
+        <!-- Rules Section -->
+        <div id="rules">
+            <h2>Rules</h2>
+            <ul>
+                <li>Each user selects one golfer per week.</li>
+                <li>Once a golfer is selected, they cannot be picked again during the season.</li>
+                <li>The payout for each golfer is based on their performance in the tournament.</li>
+                <li>If a golfer does not make the cut, the payout is $0.</li>
+                <li>Users must pick player before first tee time.</li>
+                <li>Users cannot change their player pick after the first tee time.</li>
+                <li>Users must pay $100 before the first tournament or else they will not participate.</li>
+                <li>The user with the highest total payout at the end of the season wins.</li>
+                <li>The pool will include all normal events, elevated events, all majors (excluding The Masters), and The Players.</li>
+                <li>If a user picks a golfer twice, they will receive a $0 for the second use of the player.</li>
+                <li>Tour Championship purse will be scaled down to an elevated event amount of $20m.</li>
+                <li>Payout will be calculated based on the number of users. 15 people = 1st and 2nd. 30 people = 1st, 2nd, 3rd, 4th, 5th. Amount is also based on the number of users.</li>
+                <li>The leaderboard will update by the Monday following Championship Sunday (may be subject to delay).</li>
+            </ul>
+        </div>
     </div>
 
-    <div class="logout-container">
-        <form method="post" action="{{ url_for('logout') }}">
-            <button type="submit" class="logout-btn">Logout</button>
-        </form>
-    </div>
+</div>
 
-    <a href="/stats" class="btn btn-link">View Stats</a>
+<div class="logout-container">
+    <form method="post" action="{{ url_for('logout') }}">
+        <button type="submit" class="logout-btn">Logout</button>
+    </form>
+</div>
 
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.min.js"></script>
+<a href="/stats" class="btn btn-link">View Stats</a>
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-beta.1/js/select2.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('.select2').select2({
+            placeholder: 'Select a golfer',
+            allowClear: true
+        });
+    });
+</script>
 </body>
 </html>
