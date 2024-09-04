@@ -134,9 +134,7 @@
 
     <div class="container">
         <div id="bulletin">
-            <h2>Bulletin</h2>
-            <p><strong>Last Winner:</strong> {{ last_winner }}</p>
-            <p><strong>Next Tournament:</strong> {{ next_tournament }}</p>
+            <h2>Stats</h2>
             <p><strong>Total Money Won:</strong> {{ total_moneyWon }}</p>
             <p><strong>Total Money Left:</strong> {{ total_moneyLeft }}</p>
         </div>
@@ -165,6 +163,15 @@
         
                 #user-form select {
                     height: auto; /* Ensures select dropdown adjusts to font size */
+                }
+        
+                /* Specific adjustments for tournament and golfer selects */
+                #tournament, 
+                #pick {
+                    width: 200px; /* Adjust width as needed */
+                    height: 30px; /* Adjust height as needed */
+                    font-size: 14px; /* Adjust font size */
+                    padding: 5px; /* Optional: for additional space inside the select */
                 }
             </style>
             <form method="post">
@@ -200,8 +207,7 @@
                 </div>
             </form>
         </div>
-            
-
+        
         <div id="leaderboard">
             <h2>Leaderboard</h2>
             <table class="table table-striped">
@@ -235,35 +241,27 @@
                 <li>Users must pay $100 before the first tournament or else they will not participate.</li>
                 <li>The user with the highest total payout at the end of the season wins.</li>
                 <li>The pool will include all normal events, elevated events, all majors (excluding The Masters), and The Players.</li>
-                <li>If a user picks a golfer twice, they will receive a $0 for the second use of the player.</li>
-                <li>Tour Championship purse will be scaled down to an elevated event amount of $20m.</li>
-                <li>Payout will be calculated based on the number of users. 15 people = 1st and 2nd. 30 people = 1st, 2nd, 3rd, 4th, 5th. Amount is also based on the number of users.</li>
-                <li>The leaderboard will update by the Monday following Championship Sunday (may be subject to delay).</li>
             </ul>
         </div>
     </div>
 
-</div>
+    <div class="logout-container">
+        <form method="post" action="{{ url_for('logout') }}">
+            <button type="submit" class="logout-btn">Logout</button>
+        </form>
+    </div>
 
-<div class="logout-container">
-    <form method="post" action="{{ url_for('logout') }}">
-        <button type="submit" class="logout-btn">Logout</button>
-    </form>
-</div>
-
-<a href="/stats" class="btn btn-link">View Stats</a>
-
-<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-beta.1/js/select2.min.js"></script>
-<script>
-    $(document).ready(function() {
-        $('.select2').select2({
-            placeholder: 'Select a golfer',
-            allowClear: true
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-beta.1/js/select2.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('.select2').select2({
+                placeholder: 'Select a golfer',
+                allowClear: true
+            });
         });
-    });
-</script>
+    </script>
 </body>
 </html>
