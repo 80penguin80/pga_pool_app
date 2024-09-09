@@ -23,36 +23,58 @@
                 "user-form leaderboard"
                 "rules rules";
             grid-gap: 30px;
-            max-width: 100vw; /* Ensure the container fits the viewport width */
+            max-width: 1200px; /* Adjusted max-width */
             margin: 20px auto;
-            overflow-x: auto; /* Allow horizontal scrolling if necessary */
+            overflow-x: auto;
         }
-        #bulletin, #current-tournament-info, #user-form, #leaderboard, #rules {
+
+        #bulletin {
+            grid-area: bulletin;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            grid-gap: 20px;
+        }
+        #bulletin .stats,
+        #bulletin .custom-messages {
             background: white;
             border-radius: 12px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             padding: 20px;
         }
-        #bulletin {
-            grid-area: bulletin;
-        }
+
         #current-tournament-info {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            padding: 20px;
             grid-area: current-tournament-info;
         }
         #user-form {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            padding: 20px;;
             grid-area: user-form;
             margin: 20px 0;
         }
+        
         #leaderboard {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            padding: 20px;
             grid-area: leaderboard;
         }
         #rules {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            padding: 20px;
             grid-area: rules;
             margin-top: 30px;
-            padding: 20px;
-            width: 300%; /* Increase width */
-            max-width: 100%; /* Ensure it doesn’t exceed the container width */
-            justify-self: center; /* Center within its grid area */
+            width: 100%; /* Adjusted width */
+            max-width: 100%;
+            justify-self: center;
         }
             
         h1 {
@@ -69,14 +91,14 @@
             border-radius: 8px;
         }
         .btn-primary {
-            background-color: #007bff;
-            border: none;
+            background-color: #ffee00;
+            border: #FF0000;
         }
         .btn-primary:hover {
-            background-color: #0056b3;
+            background-color: None;
         }
         .btn-link {
-            color: #007bff;
+            color: None;
         }
         .btn-link:hover {
             text-decoration: underline;
@@ -102,7 +124,7 @@
         }
         .logout-container {
             text-align: center;
-            margin-top:30px;
+            margin-top: 30px;
         }
         .logout-btn {
             background-color: #dc3545;
@@ -116,6 +138,10 @@
             background-color: #c82333;
         }
         .tournament-links a {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            padding: 20px;
             display: block;
             margin: 5px 0;
             color: #007bff;
@@ -125,18 +151,46 @@
             text-decoration: underline;
         }
         .wide-dropdown {
-            width: 100%; /* Full width for dropdown */
+            width: 100%;
+        }
+
+        /* Additional Styles for Form Elements */
+        #user-form label, 
+        #user-form select, 
+        #user-form input[type="submit"] {
+            font-size: 18px;
+        }
+
+        #user-form select {
+            height: auto;
+        }
+
+        #tournament, 
+        #pick {
+            width: 200px;
+            height: 30px;
+            font-size: 14px;
+            padding: 5px;
         }
     </style>
 </head>
 <body>
-    <h1>Welcome to The PGA Cool Pool</h1>
+    <h1>Welcome to The 2025 PGA Pool</h1>
 
     <div class="container">
         <div id="bulletin">
-            <h2>Stats</h2>
-            <p><strong>Total Money Won:</strong> {{ total_moneyWon }}</p>
-            <p><strong>Total Money Left:</strong> {{ total_moneyLeft }}</p>
+            <div class="stats">
+                <h2>Stats</h2>
+                <p><strong>Total Money Won:</strong> {{ total_moneyWon }}</p>
+                <p><strong>Total Money Left:</strong> {{ total_moneyLeft }}</p>
+                <p><strong>Money Behind:</strong> {{ "TBD" }}</p>
+            </div>
+
+            <div class="custom-messages">
+                <h2>Custom Messages</h2>
+                <p>Coming Soon, very soon....</p>
+                <p>{{ custom_message }}</p>
+            </div>
         </div>
 
         <div id="current-tournament-info">
@@ -154,26 +208,6 @@
         </div>
 
         <div id="user-form">
-            <style>
-                #user-form label, 
-                #user-form select, 
-                #user-form input[type="submit"] {
-                    font-size: 18px; /* Adjust the size as needed */
-                }
-        
-                #user-form select {
-                    height: auto; /* Ensures select dropdown adjusts to font size */
-                }
-        
-                /* Specific adjustments for tournament and golfer selects */
-                #tournament, 
-                #pick {
-                    width: 200px; /* Adjust width as needed */
-                    height: 30px; /* Adjust height as needed */
-                    font-size: 14px; /* Adjust font size */
-                    padding: 5px; /* Optional: for additional space inside the select */
-                }
-            </style>
             <form method="post">
                 <label for="username"><b>Username:</b></label>
                 <select class="form-control" name="username" id="username">
@@ -246,21 +280,17 @@
     </div>
 
     <div class="logout-container">
-        <form method="post" action="{{ url_for('logout') }}">
-            <button type="submit" class="logout-btn">Logout</button>
+        <form method="post" action="/logout">
+            <button class="logout-btn" type="submit">Logout</button>
         </form>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-beta.1/js/select2.min.js"></script>
     <script>
         $(document).ready(function() {
-            $('.select2').select2({
-                placeholder: 'Select a golfer',
-                allowClear: true
-            });
+            $('.select2').select2();
         });
     </script>
 </body>

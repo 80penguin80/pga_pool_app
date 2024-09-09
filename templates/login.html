@@ -7,57 +7,94 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+            background-color: #4CAF50; /* Grass green background */
+            margin: 0;
+            padding: 0;
+            position: relative;
+            height: 100vh; /* Full viewport height */
             display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            margin: 0;
+        }
+        .header-image {
+            position: absolute;
+            top: 10px; /* Padding from top */
+            left: 10px; /* Padding from left */
+            width: 1400px; /* 7x larger than 200px */
+            height: auto;
+            border: 2px solid gold;
+            border-radius: 8px;
+            object-fit: cover; /* Ensures the image fits within the dimensions */
+            z-index: 0; /* Ensure the image is behind the login box */
         }
         .login-container {
             background: #fff;
             padding: 20px;
             border-radius: 8px;
+            border: 2px solid gold; /* Gold trim */
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             width: 300px;
             text-align: center;
+            position: relative; /* Allows positioning of child elements */
+            z-index: 1; /* Ensure the login box is above the image */
         }
-        .login-container h1, .login-container h2 {
+        .login-container h1 {
+            color: #4CAF50; /* Match the grass green theme */
+            margin: 10px 0;
+        }
+        .login-container h2 {
+            color: #333; /* Dark color for contrast */
             margin: 10px 0;
         }
         .login-container input[type="text"],
         .login-container input[type="password"] {
-            width: 100%;
+            width: calc(100% - 20px); /* Adjust width to fit within padding */
             padding: 10px;
             margin: 10px 0;
             border: 1px solid #ddd;
             border-radius: 4px;
+            box-sizing: border-box; /* Ensures padding and border are included in width */
         }
         .login-container input[type="submit"] {
-            width: 100%;
+            width: calc(100% - 20px); /* Adjust width to fit within padding */
             padding: 10px;
-            background-color: #333;
-            color: #fff;
+            background-color: gold; /* Gold background for button */
+            color: #4CAF50; /* Grass green text */
             border: none;
             border-radius: 4px;
             cursor: pointer;
+            font-weight: bold;
+            box-sizing: border-box; /* Ensures padding and border are included in width */
         }
         .login-container input[type="submit"]:hover {
-            background-color: #555;
+            background-color: #FFD700; /* Lighter gold on hover */
+        }
+        .login-container .link {
+            display: block;
+            margin-top: 10px;
+            font-size: 0.9em;
+            color: #4CAF50; /* Grass green links */
+            text-decoration: none;
+        }
+        .login-container .link:hover {
+            text-decoration: underline;
         }
         .error-message {
             color: red;
             margin-top: 10px;
         }
         .bottom-message {
-            margin-top: 20px;
+            position: absolute;
+            top: 10px; /* Padding from top */
+            right: 10px; /* Padding from right */
             font-size: 0.9em;
-            color: #555;
+            color: #333;
+            z-index: 1; /* Ensure the message is above the image */
         }
     </style>
 </head>
 <body>
+    <img src="https://www.azcentral.com/gcdn/-mm-/6d40e1865e75907c22fca8a2cbbe7bbb0b698abe/c=0-871-2602-2341/local/-/media/2015/03/06/Phoenix/Phoenix/635612557515833943-roryl.jpg?width=2602&height=1470&fit=crop&format=pjpg&auto=webp" alt="Rory McIlroy" class="header-image">
     <div class="login-container">
         <h1>Welcome to Cool Pool</h1>
         <h2>Login</h2>
@@ -71,7 +108,7 @@
         </form>
     </div>
     <div class="bottom-message">
-        It's not ready yet relax
+        It's not ready yet, relax
     </div>
 </body>
 </html>
